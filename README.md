@@ -4,8 +4,9 @@ Data Pipeline and modeling in Python to help classify disaster response messages
 1. Project Motivation
 2. Folder setup
 3. File Descriptions
-4. Results
-5. Licensing, Authors, and Acknowledgements
+4. Running the code
+5. Results
+6. Licensing, Authors, and Acknowledgements
 
 ## Project Motivation
 
@@ -60,6 +61,21 @@ Flask Web App
 run.py
 
 The file utilizes Flask flask web app to display an interactive website for an emergency worker.
+
+## Running the code
+
+Instructions:
+1. Run the following commands in the project's root directory to set up your database and model.
+
+    - To run ETL pipeline that cleans data and stores in database
+        `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
+    - To run ML pipeline that trains classifier and saves
+        `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
+
+2. Run the following command in the app's directory to run your web app.
+    `python run.py`
+
+3. Go to http://0.0.0.0:3001/
 
 ## Results
 
