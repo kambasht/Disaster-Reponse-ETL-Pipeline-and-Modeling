@@ -1,4 +1,3 @@
-# Disaster-Reponse-Pipeline-and-Modeling
 Data Pipeline and modeling in Python to help classify disaster response messages
 
 # Table of Contents
