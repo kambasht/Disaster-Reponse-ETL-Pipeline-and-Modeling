@@ -20,20 +20,20 @@ The relevant files have been attached in the github code. Make sure you create t
 Folder Structure:
 
 - app
-| - template
-| |- master.html  # main page of web app
-| |- go.html  # classification result page of web app
-|- run.py  # Flask file that runs app
+    - template
+       - master.html  # main page of web app
+       - go.html  # classification result page of web app
+    - run.py  # Flask file that runs app
 
 - data
-|- disaster_categories.csv  # data to process 
-|- disaster_messages.csv  # data to process
-|- process_data.py
-|- InsertDatabaseName.db   # database to save clean data to
+    - disaster_categories.csv  # data to process 
+    - disaster_messages.csv  # data to process
+    - process_data.py
+    - InsertDatabaseName.db   # database to save clean data to
 
 - models
-|- train_classifier.py
-|- classifier.pkl  # saved model 
+    - train_classifier.py # ml script to train classifier
+    - classifier.pkl  # saved model 
 
 
 ## File Descriptions
@@ -65,4 +65,4 @@ The file utilizes Flask flask web app to display an interactive website for an e
 
 
 ## Licensing, Authors, Acknowledgements
-Credits to Figure Eight (https://www.figure-eight.com/dataset/combined-disaster-response-data/) for the dataset and [Udacity](https://www.udacity.com/) for the skeleton structure for the code.
+Credits to [Figure Eight](https://www.figure-eight.com/dataset/combined-disaster-response-data/) for the dataset and [Udacity](https://www.udacity.com/) for the skeleton structure for the code.
