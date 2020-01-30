@@ -10,7 +10,7 @@ Data Pipeline and modeling in Python to help classify disaster response messages
 
 ## Project Motivation
 
-Natural disasters have affected everyone across the world. In the times of distress and chaos, victims send out millions of messages hoping to get in touch with the nearest disaster recovery centre. This project utilizes a data set which contains real messages that were sent during disaster events. We are utilizing a machine learning pipeline to categorize these events so that we can categorize and send the messages to an appropriate disaster relief agency.
+Natural disasters have affected everyone across the world. In the times of distress and chaos, victims send out millions of messages hoping to get in touch with the nearest disaster recovery centre. This project utilizes a data set which contains real messages that were sent during disaster events. We are utilizing a machine learning pipeline to categorize these events into one of the 36 categories of food, shelter, electricity, storm etc. so that these messages can be then sent to an appropriate disaster relief agency.
 
 The project includes a web app where an emergency worker can input a new message and get classification results in several categories. The web app will also display visualizations of the data.
 
@@ -64,6 +64,10 @@ The file utilizes Flask flask web app to display an interactive website for an e
 
 ## Running the code
 
+Installations required before running the code:
+- pip install sqlalchemy
+- pip install plotly
+
 Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
@@ -73,12 +77,15 @@ Instructions:
         `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
 
 2. Run the following command in the app's directory to run your web app.
-    `python run.py`
+    - change the directory to app
+        'cd app'
+    - run the script
+        'python run.py'
 
-3. Go to http://0.0.0.0:3001/
+3. Go to 'localhost:3001' in one of your browser window
 
 ## Results
-
+While some of the user input messages are being classified correctly into one of the 36 categories in the list, there is a scope of improvement to enhance the model through a better gridsearch process. The current process has been optimized to consume less time in model build and fitting data.
 
 ## Licensing, Authors, Acknowledgements
 Credits to [Figure Eight](https://www.figure-eight.com/dataset/combined-disaster-response-data/) for the dataset and [Udacity](https://www.udacity.com/) for the skeleton structure for the code.
