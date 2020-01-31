@@ -106,19 +106,18 @@ def build_model():
 def evaluate_model(model, X_test, Y_test, category_names):
     '''
     INPUT
-    model
-    X_test
-    Y_test
-    category_names
+    model : the model that needs to be evaluated
+    X_test : validation data set i.e. messages in this case
+    Y_test : the output data for X_test validation set i.e. 36 categories values
+    category_names : the 36 category names
     
     OUTPUT
-    
+    classification report for the model based on predictions, gives
+    the recall, precision and f1 score
     
     This function :
-    1. reads the database into a dataframe
-    2. drops columns not needed
-    2. divides the dataset into train and test data
-    3. returns the target and independent variables X and Y for model training
+    1. utilizes the input model to make predictions
+    2. compares the predictions to the test data to provide a classification report
     '''
     y_pred = model.predict(X_test)
     for n,col in enumerate(Y_test):
@@ -129,17 +128,14 @@ def evaluate_model(model, X_test, Y_test, category_names):
 def save_model(model, model_filepath):
     '''
     INPUT
-    model
-    model_filepath
+    model : the model to be saved
+    model_filepath : filepath where the model should be saved
     
     OUTPUT
-    
+    None
     
     This function :
-    1. reads the database into a dataframe
-    2. drops columns not needed
-    2. divides the dataset into train and test data
-    3. returns the target and independent variables X and Y for model training
+    saves the model in the required filepath
     '''
     with open(model_filepath, 'wb') as f:
         pickle.dump(model, f)
