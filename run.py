@@ -1,29 +1,35 @@
 import json
-import plotly
+import plotly,re
 import pandas as pd
 
+import nltk
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+#nltk.download(['punkt', 'wordnet','stopwords'])
+from nltk.corpus import stopwords
 
+from collections import Counter
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
-
 app = Flask(__name__)
 
+
 def tokenize(text):
+    # normalize case and remove punctuation
+    text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower())
+
+    # tokenize text
     tokens = word_tokenize(text)
+
     lemmatizer = WordNetLemmatizer()
+    # lemmatize andremove stop words
+    tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in stopwords.words("english")]
 
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
-
-    return clean_tokens
+    return tokens
 
 # load data
 engine = create_engine('sqlite:///../data/DisasterResponse.db')
@@ -33,34 +39,33 @@ df = pd.read_sql('SELECT * FROM DisasterReponseMessages', engine)
 # load model
 model = joblib.load("../models/classifier.pkl")
 
-
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
 def index():
     
     # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
-    #genre_counts = df.groupby('genre').count()['message']
-    #genre_names = list(genre_counts.index)
-    death_related = df[df['death'] == 1].groupby('genre').count()['message']
-    death_not_related = df[df['related']==0].groupby('genre').count()['message']
-    death_cats = list(death_related.index)
-     # Find the top 10 categories with the highest % of messages and display
-    top_cats_df = df.drop(['id', 'message', 'original', 'genre'], axis = 1).sum()/len(df)#.sort_values(ascending = False)[:,0:10]
-    top_cats_df=(top_cats_df.sort_values(ascending=False)[0:10])
-    top_cats_names = list(top_cats_df.index)
-    top_cats_proportions = top_cats_df
-    
+    genre_counts = df.groupby('genre').count()['message']
+    genre_names = list(genre_counts.index)
+
+    # top 10 categories with highest % of messages
+    df_cleaned = df.drop(['id', 'message', 'original', 'genre'], axis = 1).sum()/len(df)
+    top_cat =(df_cleaned.sort_values(ascending=False)[0:10])
+    top_cat_names = list(top_cat.index)
+    top_cat_proportions = top_cat
+
+    # top 10 most frequent words in the messages
+    top_10_words = Counter(" ".join(df["message"]).split()).most_common(10)
+    word_list = dict(top_10_words)
+    words, word_count = list(word_list.keys()), list(word_list.values())
+
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
                 Bar(
-                    x=death_cats,
-                    y=death_related,
-                    name='Death message counts'
+                    x=genre_names,
+                    y=genre_counts,
                 )
             ],
 
@@ -78,19 +83,39 @@ def index():
         {
             'data': [
                 Bar(
-                    x = top_cats_names,
-                    y = top_cats_proportions
+                    x = top_cat_names,
+                    y = top_cat_proportions
                 )
             ],
             
             'layout': {
                 'title': 'Top 10 Categories by Proportion of Messages Received',
                 'yaxis': {
-                    'title': "Proportions"
+                    'title': "Proportion"
                 },
                 'xaxis': {
                     'title': "Message Types"
-                }}}
+                }
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    x=words,
+                    y=word_count
+                )
+            ],
+
+            'layout': {
+                'title': 'Top 10 frequent words in the messages',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Words"
+                }
+            }
+        }
     
     ]
     
