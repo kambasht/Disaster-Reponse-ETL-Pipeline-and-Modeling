@@ -1,6 +1,34 @@
-import sys
+import sys, time,re
 import pandas as pd
 from sqlalchemy import create_engine
+import nltk
+nltk.download(['punkt', 'wordnet','stopwords'])
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+
+def remove_stopwords(text):
+    '''
+    INPUT
+    text- the text that needs to be tokenized
+
+    OUTPUT
+    tokens - a list of tokenized words after cleaning up the input text
+
+    This function :
+    1. tokenize entire text into words
+    2. remove all stop words from text as per english corpus of stop words
+    '''
+    # normalize case and remove punctuation
+    text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower())
+
+    # tokenize text
+    tokens = word_tokenize(text)
+
+    # remove stop words
+    tokens = [word for word in tokens if word not in stopwords.words("english")]
+
+    return tokens
 
 def load_data(messages_filepath, categories_filepath):
     '''
@@ -46,6 +74,13 @@ def clean_data(df):
     df.drop(['categories'],axis=1,inplace=True)
     df = pd.concat([df,categories],axis=1)
     df.drop_duplicates(inplace=True)
+
+    print("Cleaning stop words... this might take some time")
+    start_time = time.time()
+    df['message'] = df['message'].apply(lambda x: " ".join(remove_stopwords(x)))
+    elapsed_time = round((time.time() - start_time) / 60, 2)
+    print('Completed stop word cleaning in {} minutes'.format(elapsed_time))
+
     return df
     
 def save_data(df, database_filename):
