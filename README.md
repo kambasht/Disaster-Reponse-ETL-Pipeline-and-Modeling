@@ -16,7 +16,7 @@ The project includes a web app where an emergency worker can input a new message
 
 ## Folder setup
 
-The relevant files have been attached in the github code. Make sure you create the following folder structure on your system to successfully run the ETL, modeling and the web app.
+The relevant files have been attached in the github code. Make sure you create the following folder structure on your system to successfully run the ETL, modeling and the web app run.
 
 Folder Structure:
 
@@ -60,7 +60,7 @@ train_classifier.py (a machine learning pipeline) that:
 Flask Web App
 run.py
 
-The file utilizes Flask flask web app to display an interactive website for an emergency worker.
+The file utilizes Flask web app to display an interactive website for an emergency worker.
 
 ## Running the code
 
@@ -78,14 +78,14 @@ Instructions:
 
 2. Run the following command in the app's directory to run your web app.
     - change the directory to app
-        'cd app'
+        `cd app`
     - run the script
-        'python run.py'
+        `python run.py`
 
 3. Go to 'localhost:3001' in one of your browser window
 
 ## Results
-While some of the user input messages are being classified correctly into one of the 36 categories in the list, there is a scope of improvement to enhance the model through a better gridsearch process. The current process has been optimized to consume less time in model build and fitting data.
+While some of the user input messages are being classified correctly into one of the 36 categories in the list ( floods, weather and help messages), there is a scope of improvement to enhance the model through a better gridsearch process. The current process has been optimized to consume less time in model build and fitting data.
 
 ## Licensing, Authors, Acknowledgements
 Credits to [Figure Eight](https://www.figure-eight.com/dataset/combined-disaster-response-data/) for the dataset and [Udacity](https://www.udacity.com/) for the skeleton structure for the code.
