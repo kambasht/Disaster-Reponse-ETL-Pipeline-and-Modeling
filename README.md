@@ -21,7 +21,7 @@ The relevant files have been attached in the github code. Make sure you create t
 Folder Structure:
 
 - app
-    - template
+    - templates
        - master.html  # main page of web app
        - go.html  # classification result page of web app
     - run.py  # Flask file that runs app
@@ -33,7 +33,6 @@ Folder Structure:
 
 - models
     - train_classifier.py # ml script to train classifier
-    - classifier.pkl  # saved model 
 
 
 ## File Descriptions
